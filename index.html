@@ -1,138 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <link rel="icon" type="image/png" href="favicon.png">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>gn-math</title>
+
+    <!-- Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <script>
-        window.addEventListener('beforeunload', function (event) {
-            event.preventDefault();
-            event.returnValue = '';
-            return 'Are you sure you want to leave? Any unsaved changes will be lost.';
-        });
-    </script>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837" crossorigin="anonymous"></script>
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
-    <meta name="google-adsense-account" content="ca-pub-5521219086088837">
-    <script>
-        window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'G-WX5VS54ZDW');
-    </script>
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-5521219086088837?ers=1"></script><script>(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
-    <script src="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/gnmath.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gn-math</title>
+    <!-- Meta -->
     <meta name="title" content="GN-Math">
-    <meta name="description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
+    <meta name="description" content="Play unblocked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
+    <meta name="theme-color" content="#111827">
+
+    <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gn-math.github.io/">
     <meta property="og:title" content="GN-Math">
-    <meta property="og:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
+    <meta property="og:description" content="Play unblocked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://gn-math.github.io/">
     <meta name="twitter:title" content="GN-Math">
-    <meta name="twitter:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
+    <meta name="twitter:description" content="Play unblocked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
+
+    <!-- Ads / analytics (kept as originally included) -->
+    <meta name="google-adsense-account" content="ca-pub-5521219086088837">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-WX5VS54ZDW');
+    </script>
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-5521219086088837?ers=1"></script>
+
+    <!-- Main JS + CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- load gnmath library (if used by the site) -->
+    <script src="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/gnmath.js" defer crossorigin="anonymous"></script>
+
+    <!-- Page scripts are deferred so DOM is available -->
+    <script src="script.js" defer></script>
+
+    <style>
+        /* Minimal inline fixes so the page doesn't flash badly if CSS missing */
+        :root { --primary-color: #2563eb; }
+        body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    </style>
 </head>
 <body class="dark-mode">
+    <noscript>
+        <div style="background:#fffbdd;padding:12px;text-align:center;">
+            This site works best with JavaScript enabled.
+        </div>
+    </noscript>
+
+    <!-- Lightweight "unsaved changes" prompt: only runs if something sets window.hasUnsavedChanges = true -->
+    <script>
+        // Only show a confirmation when there are unsaved changes.
+        window.hasUnsavedChanges = window.hasUnsavedChanges || false;
+        window.addEventListener('beforeunload', function (event) {
+            if (!window.hasUnsavedChanges) return;
+            event.preventDefault();
+            // Some browsers require setting returnValue.
+            event.returnValue = 'Are you sure you want to leave? Any unsaved changes will be lost.';
+            return 'Are you sure you want to leave? Any unsaved changes will be lost.';
+        });
+    </script>
+
     <header>
-        <div class="header-content">
-            <div class="logo">gn-math</div>
-            <div class="search-container">
-                <input type="text" id="searchBar" placeholder="Search zones..." oninput="filterZones()">
-                <select id="sortOptions" onchange="sortZones()">
+        <div class="header-content" style="display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;">
+            <div class="logo" style="font-weight:700;font-size:1.25rem;">gn-math</div>
+
+            <div class="search-container" style="flex:1;display:flex;gap:0.5rem;align-items:center;">
+                <label for="searchBar" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">Search zones</label>
+                <input type="text" id="searchBar" placeholder="Search zones..." aria-label="Search zones" oninput="if(typeof filterZones === 'function') filterZones();">
+                <select id="sortOptions" aria-label="Sort zones" onchange="if(typeof sortZones === 'function') sortZones();">
                     <option value="name">Name</option>
                     <option value="id">ID (Date)</option>
                     <option value="popular">Popular</option>
                 </select>
             </div>
-            <div class="control-buttons">
-                <button id="settings" style="background-color: var(--primary-color); color: white; border: none; border-radius: 4px; padding: 0.5rem 1rem; font-size: 16px; cursor: pointer;">Settings</button>
+
+            <div class="control-buttons" style="display:flex;gap:0.5rem;">
+                <button id="settings" type="button" style="background-color:var(--primary-color);color:white;border:none;border-radius:4px;padding:0.5rem 1rem;font-size:16px;cursor:pointer;">Settings</button>
+                <button id="themeToggle" type="button" aria-pressed="true" style="border:1px solid rgba(255,255,255,0.08);background:transparent;color:inherit;padding:0.5rem;border-radius:4px;cursor:pointer;">Toggle Theme</button>
             </div>
         </div>
     </header>
-    <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-client="ca-pub-5521219086088837"
-    data-ad-slot="5549138288"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-   </script>
 
-    <main>
+    <!-- Top ad -->
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-client="ca-pub-5521219086088837"
+         data-ad-slot="5549138288"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <main style="padding:1rem;">
         <details id="featuredZonesWrapper" open>
             <summary id="allZonesSummary" style="font-size: 1.2rem; font-weight: bold; cursor: pointer;">Featured Zones</summary>
-            <div id="featuredZones" class="zone-container"></div>
+            <div id="featuredZones" class="zone-container" aria-live="polite"></div>
         </details>
+
         <br><hr><br>
+
         <details id="allZonesWrapper" open>
             <summary id="allSummary" style="font-size: 1.2rem; font-weight: bold; cursor: pointer;">All Zones</summary>
-            <div id="container">Loading...</div>
+            <div id="container" role="region" aria-label="All zones">Loading...</div>
         </details>
     </main>
 
-    <div id="zoneViewer">
-        <div class="zone-header">
-            <div class="zone-title">
-                <h2 id="zoneName">zone</h2>
-                <span id="zoneId" style="display: none;"></span>
-                <a id="zoneAuthor" href="#" target="_blank">by Author</a>
+    <!-- Zone viewer modal / panel -->
+    <div id="zoneViewer" aria-hidden="true" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:1rem;z-index:1000;">
+        <div style="background:#0b1220;color:white;border-radius:8px;max-width:1100px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;">
+            <div class="zone-header" style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border-bottom:1px solid rgba(255,255,255,0.04);">
+                <div class="zone-title">
+                    <h2 id="zoneName" style="margin:0;font-size:1.125rem;">zone</h2>
+                    <a id="zoneAuthor" href="#" target="_blank" rel="noopener noreferrer" style="color:#9ca3af;font-size:0.9rem;">by Author</a>
+                </div>
+                <div class="zone-controls" style="display:flex;gap:0.5rem;">
+                    <button id="fullscreenBtn" type="button">Fullscreen</button>
+                    <button id="openNewTabBtn" type="button">Open in New Tab</button>
+                    <button id="downloadBtn" type="button">Download</button>
+                    <button id="closeZoneBtn" type="button" aria-label="Close">Close</button>
+                </div>
             </div>
-            <div class="zone-controls">
-                <button onclick="fullscreenZone()">Fullscreen</button>
-                <button onclick="aboutBlank()">Open in New Tab</button>
-                <button onclick="downloadZone()">Download</button>
-                <button onclick="closeZone()">Close</button>
-            </div>
+
+            <!-- sandboxed iframe for safety -->
+            <iframe id="zoneFrame" title="Zone content" style="width:100%;height:70vh;border:0;" sandbox="allow-scripts allow-same-origin allow-forms allow-modals"></iframe>
         </div>
-        <iframe id="zoneFrame"></iframe>
     </div>
 
-    <div id="popupOverlay">
-        <div class="popup">
-            <div class="popup-header">
-                <h3 id="popupTitle">Title</h3>
-                <button id="popupClose" onclick="closePopup()">×</button>
+    <!-- Accessible popup overlay -->
+    <div id="popupOverlay" aria-hidden="true" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;z-index:1100;background:rgba(0,0,0,0.6);">
+        <div class="popup" role="dialog" aria-modal="true" style="background:#0b1220;color:white;padding:1rem;border-radius:8px;max-width:720px;width:100%;">
+            <div class="popup-header" style="display:flex;justify-content:space-between;align-items:center;">
+                <h3 id="popupTitle" style="margin:0;">Title</h3>
+                <button id="popupClose" type="button" onclick="closePopup()" aria-label="Close popup">×</button>
             </div>
-            <div id="popupBody">
+            <div id="popupBody" style="margin-top:0.5rem;">
                 Content will be here
             </div>
         </div>
     </div>
 
+    <!-- Bottom ad -->
     <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-client="ca-pub-5521219086088837"
-    data-ad-slot="5549138288"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-   </script>
-    <footer>
-        <div class="footer-links">
-            <a href="#" onclick="loadDMCA(); return false;">DMCA</a>
-            <a href="#" onclick="showContact(); return false;">Contact</a>
-            <a href="#" onclick="loadPrivacy(); return false;">Privacy Policy</a>
+         style="display:block; text-align:center;"
+         data-ad-client="ca-pub-5521219086088837"
+         data-ad-slot="5549138288"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <footer style="padding:1rem;border-top:1px solid rgba(255,255,255,0.04);display:flex;justify-content:center;">
+        <div class="footer-links" style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <a href="#" onclick="if(typeof loadDMCA==='function'){loadDMCA();}return false;">DMCA</a>
+            <a href="#" onclick="if(typeof showContact==='function'){showContact();}return false;">Contact</a>
+            <a href="#" onclick="if(typeof loadPrivacy==='function'){loadPrivacy();}return false;">Privacy Policy</a>
             <a href="javascript:saveData()">Export Data</a>
             <a href="#" onclick="document.getElementById('importData').click(); return false;">Import Data</a>
-            <input type="file" id="importData" style="display: none;" onchange="loadData(event)">
+            <input type="file" id="importData" style="display:none;" onchange="if(typeof loadData==='function'){loadData(event);}">
         </div>
     </footer>
-    <script src="script.js"></script>
+
     <script>
+        // Wire some UI behaviors that are safe to provide here so the page is immediately usable
+        document.addEventListener('DOMContentLoaded', function () {
+            // Theme toggle (simple)
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const pressed = document.body.classList.contains('dark-mode');
+                    themeToggle.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+                });
+            }
+
+            // Zone viewer buttons: call functions from script.js where available, otherwise provide basic behavior
+            const zoneViewer = document.getElementById('zoneViewer');
+            const zoneFrame = document.getElementById('zoneFrame');
+            document.getElementById('closeZoneBtn')?.addEventListener('click', () => {
+                if (typeof closeZone === 'function') { closeZone(); return; }
+                zoneFrame.src = 'about:blank';
+                zoneViewer.style.display = 'none';
+                zoneViewer.setAttribute('aria-hidden', 'true');
+            });
+
+            document.getElementById('openNewTabBtn')?.addEventListener('click', () => {
+                // Prefer explicit url from the zoneFrame; fallback to about:blank
+                const src = zoneFrame?.src || 'about:blank';
+                window.open(src, '_blank', 'noopener,noreferrer');
+            });
+
+            document.getElementById('fullscreenBtn')?.addEventListener('click', () => {
+                // If user provided fullscreenZone(), call it; otherwise try element.requestFullscreen
+                if (typeof fullscreenZone === 'function') { fullscreenZone(); return; }
+                const el = zoneFrame;
+                if (el && el.requestFullscreen) {
+                    el.requestFullscreen().catch(() => {});
+                }
+            });
+
+            document.getElementById('downloadBtn')?.addEventListener('click', () => {
+                if (typeof downloadZone === 'function') { downloadZone(); return; }
+                // Fallback: try to download the zone iframe src if it's same-origin
+                try {
+                    const src = zoneFrame?.src;
+                    if (!src) return;
+                    const a = document.createElement('a');
+                    a.href = src;
+                    a.download = '';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                } catch (e) {
+                    alert('Unable to download this zone from the current origin.');
+                }
+            });
+
+            // Expose a safe helper for popups if script.js doesn't define it
+            if (typeof closePopup !== 'function') {
+                window.closePopup = function () {
+                    const po = document.getElementById('popupOverlay');
+                    if (po) {
+                        po.style.display = 'none';
+                        po.setAttribute('aria-hidden','true');
+                    }
+                };
+            }
+        });
+
+        // If ?privacy is present on the URL, attempt to open the privacy overlay / page
         const search = new URLSearchParams(window.location.search);
         const privacy = search.get('privacy');
         if (privacy) {
-            loadPrivacy();
+            if (typeof loadPrivacy === 'function') loadPrivacy();
         }
     </script>
 </body>
