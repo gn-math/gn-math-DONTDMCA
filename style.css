@@ -1,4 +1,5 @@
 :root {
+    /* Color system */
     --primary: #fc2651;
     --primary-hover: #e91e47;
     --primary-light: rgba(252, 38, 81, 0.1);
@@ -7,6 +8,8 @@
     --accent-light: rgba(139, 92, 246, 0.1);
     --success: #10b981;
     --warning: #f59e0b;
+
+    /* Text & background */
     --text: #1a1a1a;
     --text-muted: #6b7280;
     --text-light: #9ca3af;
@@ -16,6 +19,8 @@
     --surface-hover: #f1f5f9;
     --border: #e2e8f0;
     --border-light: #f1f5f9;
+
+    /* Glass & shadows */
     --glass: rgba(255, 255, 255, 0.8);
     --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -23,15 +28,26 @@
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     --shadow-glow: 0 0 20px rgba(252, 38, 81, 0.3);
+
+    /* Layout */
     --radius: 12px;
     --radius-sm: 8px;
     --radius-lg: 16px;
     --radius-xl: 20px;
+
+    /* Gradients */
     --gradient-primary: linear-gradient(135deg, #fc2651 0%, #e91e47 100%);
     --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     --gradient-surface: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+
+    /* Focus ring (preserve existing "rings" visual identity) */
+    --ring: rgba(252, 38, 81, 0.25);
+
+    /* Accessibility */
+    --min-tap-size: 44px;
 }
 
+/* Dark mode variables kept and tuned for better contrast */
 .dark-mode {
     --primary: #fc2651;
     --primary-hover: #ff4d75;
@@ -62,100 +78,146 @@
     --gradient-surface: linear-gradient(135deg, #1e293b 0%, #334155 100%);
 }
 
-* {
+/* Base reset */
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
+/* Body improvements */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
     line-height: 1.6;
     margin: 0;
     padding: 0;
     background: var(--bg);
     color: var(--text);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 240ms linear, color 240ms linear;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
 }
 
+/* Header - updated for sleeker look */
 header {
-    background: var(--gradient-primary);
-    color: white;
+    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    color: var(--text);
     position: sticky;
-    top: 0;
+    top: 12px;
     z-index: 100;
     box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(8px);
+    margin: 0 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.04);
 }
 
+/* header content spacing refined */
 .header-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1.25rem 1rem;
+    padding: 0.75rem 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
+/* Logo tweaks: compact, with subtle glow */
 .logo {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
 }
 
+/* small circular emblem to left of logo text */
+.logo .emblem {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-glow);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+/* Search area */
 .search-container {
     display: flex;
     flex: 1;
-    max-width: 500px;
+    max-width: 560px;
     gap: 0.75rem;
+    align-items: center;
 }
 
-#searchBar {
-    flex: 1;
-    padding: 0.875rem 1rem;
-    border: 0;
-    border-radius: var(--radius);
-    background: var(--glass);
-    backdrop-filter: blur(20px);
+/* Inputs & selects remain mostly same, with subtle glass */
+#searchBar,
+#sortOptions,
+#popupBody input[type="text"],
+#popupBody input[type="file"] {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-secondary);
     color: var(--text);
     font-size: 15px;
     outline: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 160ms ease, transform 120ms ease, background-color 160ms ease;
+    min-height: var(--min-tap-size);
+}
+
+/* Preserve glass effect only if supported for performance */
+@supports (backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0)) {
+    #searchBar,
+    #sortOptions,
+    #settings {
+        background: var(--glass);
+        backdrop-filter: blur(8px);
+    }
+}
+
+/* Specific styles */
+#searchBar {
+    flex: 1;
+    border: 0;
     box-shadow: var(--shadow-sm);
 }
 
-#searchBar:focus {
-    background: var(--text);
-    box-shadow: 0 0 0 3px rgba(252, 38, 81, 0.25), var(--shadow);
+#searchBar:focus,
+#sortOptions:focus,
+#popupBody input[type="text"]:focus,
+#popupBody input[type="file"]:focus {
+    box-shadow: 0 0 0 4px var(--ring), var(--shadow);
     transform: translateY(-1px);
-    color: var(--glass);
 }
 
+/* Placeholder */
 #searchBar::placeholder {
     color: var(--text-muted);
 }
 
+/* Sort options */
 #sortOptions {
-    padding: 0.875rem 1rem;
-    border: 0;
-    border-radius: var(--radius);
-    background: var(--glass);
-    backdrop-filter: blur(20px);
+    cursor: pointer;
     color: var(--text-muted);
     font-size: 15px;
-    cursor: pointer;
     outline: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 130px;
     box-shadow: var(--shadow-sm);
 }
 
+/* Hover states improved for contrast and motion */
 #sortOptions:hover {
     background: var(--text);
     transform: translateY(-1px);
@@ -163,40 +225,46 @@ header {
     color: var(--glass);
 }
 
+/* Buttons */
 .control-buttons {
     display: flex;
     gap: 0.5rem;
 }
 
+/* Settings button refined */
 #settings {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0,0,0,0.06);
     border: 0;
-    color: white;
-    font-size: 1.2rem;
+    color: var(--text);
+    font-size: 1.1rem;
     cursor: pointer;
-    padding: 0.75rem;
-    border-radius: var(--radius);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 44px;
-    height: 44px;
+    padding: 0.65rem;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(20px);
+    transition: transform 120ms ease, box-shadow 160ms ease, background 120ms ease;
 }
 
-#settings:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
+/* Improved hover focus */
+#settings:hover,
+#settings:focus {
+    background: rgba(0,0,0,0.09);
+    transform: translateY(-2px);
     box-shadow: var(--shadow);
 }
 
+/* Main layout */
 main {
-    margin: 0 auto;
+    margin: 1.25rem auto 3rem;
     padding: 2rem 1rem;
-    padding-bottom: 6rem;
+    padding-bottom: calc(6rem + var(--min-tap-size));
+    max-width: 1400px;
 }
 
+/* Zone count label */
 #zoneCount {
     margin: 0 0 1.5rem;
     font-size: 14px;
@@ -209,12 +277,13 @@ main {
 
 #zoneCount::before {
     content: '';
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: var(--primary);
 }
 
+/* Grid containers */
 #container,
 #featuredZones {
     display: grid;
@@ -222,53 +291,61 @@ main {
     gap: 1.5rem;
 }
 
+/* Zone item: preserve "ring" overlay and enhance */
 .zone-item {
     background: var(--gradient-surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 240ms ease, border-color 160ms ease;
     display: flex;
     flex-direction: column;
     position: relative;
     box-shadow: var(--shadow-sm);
 }
 
+/* Keep existing hover lift, but reduce motion for smoother feel */
 .zone-item:hover {
-    transform: translateY(-8px) scale(1.02);
+    transform: translateY(-6px) scale(1.015);
     box-shadow: var(--shadow-xl);
     border-color: var(--primary);
 }
 
-.zone-item:hover::before {
-    opacity: 1;
-}
-
+/* This ::before is the overlay "ring" effect the site already has — we keep and refine it */
 .zone-item::before {
     content: '';
     position: absolute;
     inset: 0;
     background: var(--primary-light);
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 240ms ease, transform 240ms ease;
     pointer-events: none;
     z-index: 1;
+    border-radius: inherit;
 }
 
+.zone-item:hover::before {
+    opacity: 1;
+    transform: scale(1.02);
+}
+
+/* Image improvements, with fallback for browsers that don't support aspect-ratio */
 .zone-item img {
     width: 100%;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
+    height: auto;
     object-fit: cover;
     display: block;
     background: var(--border-light);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 320ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
 .zone-item:hover img {
     transform: scale(1.05);
 }
 
+/* Call-to-action button area inside zone item */
 .zone-item button {
     background: transparent;
     color: var(--text);
@@ -279,7 +356,7 @@ main {
     font-size: 14px;
     line-height: 1.4;
     text-align: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 160ms ease, background-color 160ms ease, transform 120ms ease;
     min-height: 70px;
     display: flex;
     align-items: center;
@@ -293,6 +370,7 @@ main {
     background: rgba(252, 38, 81, 0.05);
 }
 
+/* Zone viewer (modal-like viewer) */
 #zoneViewer {
     position: fixed;
     inset: 0;
@@ -300,9 +378,10 @@ main {
     z-index: 1000;
     display: none;
     flex-direction: column;
-    animation: slideInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideInUp 280ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
+/* Reduced motion friendly animation: slide in up */
 @keyframes slideInUp {
     from {
         transform: translateY(100%);
@@ -340,9 +419,9 @@ main {
 
 #zoneAuthor {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: color 120ms ease;
     font-weight: 500;
 }
 
@@ -351,6 +430,7 @@ main {
     text-decoration: underline;
 }
 
+/* Controls inside zone header */
 .zone-controls {
     display: flex;
     gap: 0.75rem;
@@ -365,17 +445,19 @@ main {
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(20px);
+    transition: transform 120ms ease, background 120ms ease;
+    backdrop-filter: blur(12px);
 }
 
-.zone-controls button:hover {
+.zone-controls button:hover,
+.zone-controls button:focus {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-1px);
     box-shadow: var(--shadow);
 }
 
+/* Zone iframe */
 #zoneFrame {
     flex-grow: 1;
     border: none;
@@ -383,28 +465,26 @@ main {
     height: 90%;
 }
 
+/* Popup overlay */
 #popupOverlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 2000;
     padding: 1rem;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 240ms ease;
+    backdrop-filter: blur(8px);
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
+/* Popup panel */
 .popup {
     background: var(--surface);
     border-radius: var(--radius-lg);
@@ -416,18 +496,12 @@ main {
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border);
-    animation: slideInScale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideInScale 240ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
 @keyframes slideInScale {
-    from {
-        transform: scale(0.9) translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
+    from { transform: scale(0.97) translateY(8px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 .popup-header {
@@ -453,48 +527,30 @@ main {
     cursor: pointer;
     padding: 0.5rem;
     border-radius: var(--radius);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    line-height: 1;
+    transition: transform 120ms ease, background 120ms ease;
     width: 36px;
     height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(20px);
 }
 
-#popupClose:hover {
+#popupClose:hover,
+#popupClose:focus {
     background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+    transform: scale(1.06);
 }
 
+/* Popup body */
 #popupBody {
     padding: 1.5rem;
     overflow-y: auto;
     color: var(--text);
 }
 
-#popupBody input[type="text"],
-#popupBody input[type="file"] {
-    width: 100%;
-    padding: 0.875rem 1rem;
-    margin-bottom: 1.25rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--bg-secondary);
-    color: var(--text);
-    font-size: 15px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    outline: none;
-}
+/* Inputs inside popup already handled above */
 
-#popupBody input[type="text"]:focus,
-#popupBody input[type="file"]:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(252, 38, 81, 0.1);
-    transform: translateY(-1px);
-}
-
+/* Primary button for settings inside popup */
 #settings-button {
     width: 100%;
     padding: 0.875rem 1rem;
@@ -506,11 +562,12 @@ main {
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 1rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 120ms ease, box-shadow 160ms ease;
     box-shadow: var(--shadow-sm);
 }
 
-#settings-button:hover {
+#settings-button:hover,
+#settings-button:focus {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
 }
@@ -519,23 +576,41 @@ main {
     transform: translateY(0);
 }
 
+/* Footer: updated to be sleeker and not full-width blocking content */
 footer {
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border);
-    padding: 1rem 1rem;
+    background: transparent;
+    border-top: 0;
+    padding: 0;
     text-align: center;
-
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 100;
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    pointer-events: none; /* allow clicks through padding area except on inner bar */
 }
 
+/* inner bar that actually contains content and receives pointer events */
+.footer-inner {
+    pointer-events: auto;
+    background: var(--glass);
+    border-radius: 14px;
+    padding: 0.6rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    align-items: center;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+}
+
+/* Footer links */
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
@@ -544,22 +619,153 @@ footer {
     text-decoration: none;
     font-weight: 600;
     font-size: 15px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius);
+    transition: color 120ms ease, background 120ms ease, transform 120ms ease;
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    background: transparent;
 }
 
-.footer-links a:hover {
+.footer-links a:hover,
+.footer-links a:focus {
     color: var(--primary-hover);
     background: var(--primary-light);
     transform: translateY(-1px);
 }
 
+/* Floating bottom "compact" bar for mobile (alternative to footer-inner) */
+.bottom-bar {
+    display: none;
+    position: fixed;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    z-index: 110;
+    width: calc(100% - 36px);
+    max-width: 940px;
+    border-radius: 999px;
+    padding: 6px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+}
+
+/* Accessibility helpers */
+.visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+
+/* Focus-visible improvements across clickable elements */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--ring), var(--shadow-xs);
+    border-radius: 8px;
+}
+
+/* ===== New: .gamsbuttons (game buttons) - improved visuals =====
+   Usage: Wrap buttons in a container with class "gamsbuttons".
+   Example:
+   <div class="gamsbuttons">
+     <button class="gams-btn primary">Play</button>
+     <button class="gams-btn ghost">Info</button>
+   </div>
+*/
+.gamsbuttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Base button */
+.gams-btn {
+    --btn-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1rem;
+    border-radius: var(--btn-radius);
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1;
+    transition: transform 150ms cubic-bezier(.2,.9,.2,1), box-shadow 160ms ease, opacity 120ms ease;
+    box-shadow: var(--shadow-sm);
+    color: white;
+    background: var(--gradient-accent);
+}
+
+/* primary style */
+.gams-btn.primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 8px 30px rgba(252,38,81,0.12), 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* accent style */
+.gams-btn.accent {
+    background: var(--gradient-accent);
+    color: white;
+    box-shadow: 0 8px 30px rgba(139,92,246,0.12), 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* ghost / subtle style */
+.gams-btn.ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    box-shadow: none;
+}
+
+/* small icon inside */
+.gams-btn .icon {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.95;
+}
+
+/* hover/focus */
+.gams-btn:hover,
+.gams-btn:focus {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-xl);
+    outline: none;
+}
+
+/* active */
+.gams-btn:active {
+    transform: translateY(0) scale(0.995);
+}
+
+/* disabled */
+.gams-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive tweaks */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
+        gap: 0.75rem;
+        padding: 0.75rem;
     }
 
     .search-container {
@@ -583,8 +789,12 @@ footer {
         font-size: 13px;
     }
 
-    .footer-links {
-        gap: 1.5rem;
+    .footer-inner {
+        padding: 0.5rem;
+    }
+
+    .bottom-bar {
+        display: flex;
     }
 }
 
@@ -601,5 +811,25 @@ footer {
 
     .zone-item:hover {
         transform: translateY(-4px) scale(1.01);
+    }
+
+    .gams-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 13px;
+    }
+
+    .logo .emblem {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* Respect user's reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    :root { --animation-time: 1ms; }
+    * {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
     }
 }
