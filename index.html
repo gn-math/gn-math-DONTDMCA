@@ -1,10 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://math-plunge.s3.us-east-2.amazonaws.com/featuring.js"></script>
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
+    </script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
     <script>
       window.addEventListener('beforeunload', function (event) {
         event.preventDefault()
@@ -12,7 +15,6 @@
         return 'Are you sure you want to leave? Any unsaved changes will be lost.'
       })
     </script>
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
     <script>
       window.dataLayer = window.dataLayer || []
 
@@ -76,10 +78,10 @@
         </div>
         <div class="control-buttons">
           <button id="refresh" class="control-button" title="Refresh all the zones" onclick="listZones()">
-            <img src="refresh-icon.png" alt="refresh" />
+        <i class="fa-solid fa-rotate-right fa-spin"></i>
           </button>
           <button id="settings" class="control-button" title="Settings!">
-            <img src="setting.png" alt="settings" />
+            <i class="fa-solid fa-gear"></i>
           </button>
         </div>
       </div>
@@ -207,4 +209,3 @@
     </script>
   </body>
 </html>
-
