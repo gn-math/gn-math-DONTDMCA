@@ -77,67 +77,6 @@
       </div>
     </header>
     <main>
-<script>
-(function () {
-  const block = () => {
-    console.warn("Blocked redirect attempt");
-  };
-
-  try {
-    Object.defineProperty(window, "location", {
-      configurable: false,
-      enumerable: true,
-      get() {
-        return {
-          assign: block,
-          replace: block,
-          reload: block,
-          href: window.location.href
-        };
-      },
-      set: block
-    });
-  } catch (e) {}
-
-  window.open = function () {
-    console.warn("Blocked window.open");
-    return null;
-  };
-  try {
-    Object.defineProperty(window, "top", {
-      get() {
-        return window;
-      }
-    });
-  } catch (e) {}
-  window.addEventListener("beforeunload", (e) => {
-    e.stopImmediatePropagation();
-  }, true);
-
-})();
-</script>
-
-<script>
-  atOptions = {
-    'key' : 'f75eaf1bebd085497664ab9058a6017c',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/f75eaf1bebd085497664ab9058a6017c/invoke.js"></script>
-<script>
-  atOptions = {
-    'key' : 'f75eaf1bebd085497664ab9058a6017c',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/f75eaf1bebd085497664ab9058a6017c/invoke.js"></script>
-
       <details id="featuredZonesWrapper" open>
         <summary id="allZonesSummary" style="font-size: 1.2rem; font-weight: bold; cursor: pointer">
           Featured Zones
