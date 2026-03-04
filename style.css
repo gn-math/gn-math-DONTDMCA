@@ -77,7 +77,8 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background: var(--bg);
+    /* use the uploaded gif as the page background */
+    background: url('kanye.gif') no-repeat center/cover fixed;
     color: var(--text);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 400;
