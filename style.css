@@ -215,6 +215,7 @@ main {
 }
 
 #container,
+#favoriteZones,
 #featuredZones {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -547,6 +548,7 @@ footer {
     }
 
     #container,
+    #favoriteZones,
     #featuredZones {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 1.25rem;
@@ -565,6 +567,7 @@ footer {
 
 @media (max-width: 480px) {
     #container,
+    #favoriteZones,
     #featuredZones {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 1rem;
@@ -670,4 +673,24 @@ footer {
 
 .info-button svg {
     display: block;
+
+}
+
+.favorite-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+}
+
+.favorite-button:hover {
+    color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.2);
+}
+.favorite-button.starred {
+    color: #fbbf24;
 }

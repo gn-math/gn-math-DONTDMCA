@@ -179,6 +179,7 @@ function sortZones() {
         zones.sort((a, b) => ((popularityData['day']?.[b.id]) ?? 0) - ((popularityData['day']?.[a.id]) ?? 0));
     }
     zones.sort((a, b) => (a.id === -1 ? -1 : b.id === -1 ? 1 : 0));
+    startupFavorites();
     if (featuredContainer.innerHTML === "") {
         const featured = zones.filter(z => z.featured);
         displayFeaturedZones(featured);
@@ -192,6 +193,19 @@ function displayFeaturedZones(featuredZones) {
         const zoneItem = document.createElement("div");
         zoneItem.className = "zone-item";
         zoneItem.onclick = () => openZone(file);
+        const favoriteButton = document.createElement("div");
+        favoriteButton.classList = 'favorite-button';
+        favoriteButton.textContent = '★';
+        favoriteButton.onclick = (event) => {
+            console.log(file.name)
+            event.stopPropagation()
+            toggleFavorite(favoriteButton, file)
+        };
+        if (zoneFavorites.some(fav => fav && fav.name === file.name)) {
+            favoriteButton.className = 'favorite-button starred'
+        }
+        favoriteButton.setAttribute('data-zone-name', file.name);
+        zoneItem.appendChild(favoriteButton);
         const img = document.createElement("img");
         img.dataset.src = file.cover.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
         img.alt = file.name;
@@ -238,6 +252,20 @@ function displayZones(zones) {
         const zoneItem = document.createElement("div");
         zoneItem.className = "zone-item";
         zoneItem.onclick = () => openZone(file);
+        const favoriteButton = document.createElement("div");
+        favoriteButton.classList = 'favorite-button';
+        favoriteButton.textContent = '★';
+        favoriteButton.id = 'favorite-' + file.id;
+        favoriteButton.onclick = (event) => {
+            console.log(file.name)
+            event.stopPropagation()
+            toggleFavorite(favoriteButton, file)
+        };
+        if (zoneFavorites.some(fav => fav && fav.name === file.name)) {
+            favoriteButton.className = 'favorite-button starred'
+        }
+        zoneItem.appendChild(favoriteButton);
+        favoriteButton.setAttribute('data-zone-name', file.name);
         const img = document.createElement("img");
         img.dataset.src = file.cover.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
         img.alt = file.name;
@@ -634,6 +662,8 @@ settings.addEventListener('click', () => {
     <button class="settings-button" onclick="darkMode()">Toggle Dark Mode</button>
     <br><br>
     <button class="settings-button" onclick="tabCloak()">Tab Cloak</button>
+    <br><br>
+    <button class="settings-button" onclick="erudaToggle()">Toggle Console</button>
     <br>
     `;
     popupBody.contentEditable = false;
@@ -828,4 +858,145 @@ listZones();
 
 HTMLCanvasElement.prototype.toDataURL = function (...args) {
     return "";
+
 };
+
+        // console
+
+eStatus = false
+
+function erudaToggle() {
+    if (eStatus == true) {
+        eStatus = false
+        erudaDisable()
+        localStorage.setItem('gn-math-eruda-status', false);
+    } else {
+        eStatus = true
+        erudaEnable()
+        localStorage.setItem('gn-math-eruda-status', true);
+    }
+}
+
+function erudaEnable() {
+    var script = document.createElement('script'); 
+    script.src="https://cdn.jsdelivr.net/npm/eruda"; 
+    document.body.append(script); 
+    script.onload = function () { eruda.init(); };
+}
+
+function erudaDisable() {
+    eruda.destroy();
+}
+
+// load console on startup
+
+if (localStorage.getItem('gn-math-eruda-status') == 'true') {
+    eStatus = true;
+    erudaEnable();
+} else {
+    localStorage.setItem('gn-math-eruda-status', false);
+}
+
+// favorites
+
+
+zoneFavorites = []
+const favoriteZones = document.getElementById('favoriteZones');
+
+function toggleFavorite(e = 'none', file) {
+    
+    const index = zoneFavorites.findIndex(z => z.name === file.name);
+    let isFav = false
+    if (index !== -1) {
+        zoneFavorites.splice(index, 1);
+    } else {
+        zoneFavorites.push(file);
+        isFav = true
+    }
+
+    const zoneStars = document.querySelectorAll(`[data-zone-name="${file.name}"]`);
+    zoneStars.forEach(star => {
+        if (isFav) {
+            star.classList.add('starred');
+        } else {
+            star.classList.remove('starred');
+        }
+    });
+    
+    localStorage.setItem('gn-math-favorites', JSON.stringify(zoneFavorites))
+    sendFavoriteZones()
+}
+
+function sendFavoriteZones() {
+    favoriteZones.innerHTML = "";
+    zoneFavorites.forEach((file, index) => {
+        const zoneItem = document.createElement("div");
+        zoneItem.className = "zone-item";
+
+        const favoriteButton = document.createElement("div");
+        favoriteButton.className = 'favorite-button starred';
+        favoriteButton.textContent = '★';
+        favoriteButton.onclick = (event) => {
+            event.stopPropagation()
+            toggleFavorite(favoriteButton, file)
+        };
+        zoneItem.appendChild(favoriteButton);
+        favoriteButton.setAttribute('data-zone-name', file.name);
+
+        zoneItem.onclick = () => openZone(file);
+        const img = document.createElement("img");
+        img.dataset.src = file.cover.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+        img.alt = file.name;
+        img.loading = "lazy";
+        img.className = "lazy-zone-img";
+        zoneItem.appendChild(img);
+        
+        const button = document.createElement("button");
+        button.textContent = file.name;
+        button.onclick = (event) => {
+            event.stopPropagation();
+            openZone(file);
+        };
+
+        zoneItem.appendChild(button);
+        favoriteZones.appendChild(zoneItem);   
+    });
+
+    if (favoriteZones.innerHTML === "") {
+        favoriteZones.innerHTML = "No favorite zones.";
+    }
+
+    const lazyImages = document.querySelectorAll('img.lazy-zone-img');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !zoneViewer.hidden) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove("lazy-zone-img");
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: "100px", 
+        threshold: 0.1
+    });
+
+    lazyImages.forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+// load favorites on startup
+function startupFavorites() {
+   const stored = localStorage.getItem('gn-math-favorites');
+    if (stored) {
+        try {
+            zoneFavorites = JSON.parse(stored);
+            if (!Array.isArray(zoneFavorites)) zoneFavorites = [];
+        } catch (e) {
+            zoneFavorites = [];
+        }
+    }
+    sendFavoriteZones()
+}
+
