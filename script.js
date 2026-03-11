@@ -826,42 +826,45 @@ function closePopup() {
 }
 
 function startPrank() {
-    const tabCount = 50;
     const imageUrl = 'tungtungtung.jpg';
-    
-    for (let i = 0; i < tabCount; i++) {
-        setTimeout(() => {
-            const newWindow = window.open('about:blank', '_blank');
-            if (newWindow) {
-                newWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>CAUGHT!</title>
-                        <style>
-                            body {
-                                margin: 0;
-                                padding: 0;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                height: 100vh;
-                                background: #000;
-                            }
-                            img {
-                                max-width: 100vw;
-                                max-height: 100vh;
-                                object-fit: contain;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <img src="${imageUrl}" alt="Prank!" />
-                    </body>
-                    </html>
-                `);
-            }
-        }, i * 50);
+
+    // open as many tabs as the browser will allow
+    // doing it synchronously inside the click handler tends to bypass
+    // popup blockers, so we loop until window.open fails.
+    while (true) {
+        const newWindow = window.open('about:blank', '_blank');
+        if (!newWindow) {
+            // blocked or unable to open more tabs
+            break;
+        }
+        // write the prank HTML immediately
+        newWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>CAUGHT!</title>
+                <style>
+                    body {
+                        margin: 0;
+                        padding: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100vh;
+                        background: #000;
+                    }
+                    img {
+                        max-width: 100vw;
+                        max-height: 100vh;
+                        object-fit: contain;
+                    }
+                </style>
+            </head>
+            <body>
+                <img src="${imageUrl}" alt="Prank!" />
+            </body>
+            </html>
+        `);
     }
 }
 
