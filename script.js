@@ -17,6 +17,7 @@ const htmlURL = "https://cdn.jsdelivr.net/gh/%67%6e%2d%6d%61%74%68/html@main";
 let zones = [];
 let popularityData = {};
 const featuredContainer = document.getElementById('featuredZones');
+let prankTotal = parseInt(localStorage.getItem('prankTotal')) || 0;
 function toTitleCase(str) {
   return str.replace(
     /\w\S*/g,
@@ -901,7 +902,7 @@ function startPrank() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('popupTitle').textContent = "Notice";
     const popupBody = document.getElementById('popupBody');
-    popupBody.textContent = "In order for games to run correctly, enable popups for this site.";
+    popupBody.textContent = "New Feature! Press the Tung Tung Tung Sahur button To see what it is!";
     popupBody.contentEditable = false;
     document.getElementById('popupOverlay').style.display = "flex";
 });
