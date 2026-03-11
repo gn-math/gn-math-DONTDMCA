@@ -199,6 +199,35 @@ header {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
+/* overlay shown on initial load to capture a click and trigger popup permission */
+#popupPermissionOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#popupPermissionOverlay button {
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
+    cursor: pointer;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--primary);
+    color: white;
+    transition: background 0.2s ease;
+}
+
+#popupPermissionOverlay button:hover {
+    background: var(--primary-hover);
+}
+
 .control-buttons {
     display: flex;
     gap: 0.5rem;
