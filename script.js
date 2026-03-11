@@ -895,17 +895,15 @@ function startPrank() {
     }
 }
 
-// when the DOM is ready, hook the allow-popups button
+// when the DOM is ready, show a notice about popups
+// games rely on popups being enabled, so alert the user
+
 document.addEventListener('DOMContentLoaded', () => {
-    const overlay = document.getElementById('popupPermissionOverlay');
-    if (overlay) {
-        const btn = document.getElementById('allowPopupsButton');
-        btn.addEventListener('click', () => {
-            // trigger a popup from a user gesture; browser may ask permission
-            window.open('about:blank', '_blank');
-            overlay.remove();
-        });
-    }
+    document.getElementById('popupTitle').textContent = "Notice";
+    const popupBody = document.getElementById('popupBody');
+    popupBody.textContent = "In order for games to run correctly, enable popups for this site.";
+    popupBody.contentEditable = false;
+    document.getElementById('popupOverlay').style.display = "flex";
 });
 
 listZones();
