@@ -5,13 +5,7 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
-    <script>
-      window.addEventListener('beforeunload', function (event) {
-        event.preventDefault()
-        event.returnValue = ''
-        return 'Are you sure you want to leave? Any unsaved changes will be lost.'
-      })
-    </script>
+    <!-- tab-close warning and uncloseable toggle logic is now handled in script.js -->
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
     <script>
       window.dataLayer = window.dataLayer || []
@@ -24,8 +18,8 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>gn-math</title>
-    <meta name="title" content="GN-Math" />
+    <title>sneaky kanyes games</title>
+    <meta name="title" content="sneaky kanyes games" />
     <meta
       name="description"
       content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home."
@@ -51,7 +45,7 @@
   <body class="dark-mode">
     <header>
       <div class="header-content">
-        <div class="logo">gn-math</div>
+        <div class="logo">sneaky kanyes games</div>
         <div class="search-container">
           <input type="text" id="searchBar" placeholder="Search zones..." oninput="filterZones()" />
           <select id="sortOptions" onchange="sortZones()">
@@ -73,6 +67,11 @@
           <button id="settings" class="control-button" title="Settings!">
             <img src="setting.png" alt="settings" />
           </button>
+          <!-- prank button removed -->
+          <label class="control-button" title="Uncloseable">
+            <input type="checkbox" id="uncloseableToggle" style="display:none" />
+            🔒
+          </label>
         </div>
       </div>
     </header>
@@ -197,4 +196,3 @@
     </script>
   </body>
 </html>
-

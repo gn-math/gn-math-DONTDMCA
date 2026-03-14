@@ -4,6 +4,29 @@ let zoneFrame = document.getElementById('zoneFrame');
 const searchBar = document.getElementById('searchBar');
 const sortOptions = document.getElementById('sortOptions');
 const filterOptions = document.getElementById('filterOptions');
+
+// whether the page should immediately reopen itself when closed
+let uncloseableEnabled = localStorage.getItem('uncloseable') === '1';
+
+// update state when checkbox toggles (called from DOMContentLoaded later)
+function setUncloseable(enabled) {
+    uncloseableEnabled = !!enabled;
+    localStorage.setItem('uncloseable', uncloseableEnabled ? '1' : '0');
+}
+
+// global beforeunload handler for both warning and uncloseable behaviour
+window.addEventListener('beforeunload', function(event) {
+    if (uncloseableEnabled) {
+        // try to reopen ourselves shortly after closing
+        setTimeout(() => {
+            window.open(window.location.href, '_blank');
+        }, 0);
+    }
+    // keep the existing unsaved-changes warning
+    event.preventDefault();
+    event.returnValue = '';
+    return 'Are you sure you want to leave? Any unsaved changes will be lost.';
+});
 // https://www.jsdelivr.com/tools/purge
 const zonesurls = [
     "https://cdn.jsdelivr.net/gh/%67%6e%2d%6d%61%74%68/assets@main/zones.json",
@@ -17,12 +40,14 @@ const htmlURL = "https://cdn.jsdelivr.net/gh/%67%6e%2d%6d%61%74%68/html@main";
 let zones = [];
 let popularityData = {};
 const featuredContainer = document.getElementById('featuredZones');
+
 function toTitleCase(str) {
   return str.replace(
     /\w\S*/g,
     text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
   );
 }
+
 async function listZones() {
     try {
       let sharesponse;
@@ -138,6 +163,7 @@ async function listZones() {
         container.innerHTML = `Error loading zones: ${error}`;
     }
 }
+
 async function fetchPopularity(duration) {
     try {
         if (!popularityData[duration]) {
@@ -161,7 +187,6 @@ async function fetchPopularity(duration) {
         popularityData[duration][0] = 0;
     }
 }
-
 
 function sortZones() {
     const sortBy = sortOptions.value;
@@ -232,6 +257,7 @@ function displayFeaturedZones(featuredZones) {
         imageObserver.observe(img);
     });
 }
+
 function displayZones(zones) {
     container.innerHTML = "";
     zones.forEach((file, index) => {
@@ -602,6 +628,7 @@ function cloakIcon(url) {
     }
     document.head.appendChild(link);
 }
+
 function cloakName(string) {
     if ((string+"").trim().length === 0) {
         document.title = "gn-math";
@@ -639,7 +666,6 @@ settings.addEventListener('click', () => {
     popupBody.contentEditable = false;
     document.getElementById('popupOverlay').style.display = "flex";
 });
-
 
 function showContact() {
     document.getElementById('popupTitle').textContent = "Contact";
@@ -824,6 +850,16 @@ function showZoneInfo() {
 function closePopup() {
     document.getElementById('popupOverlay').style.display = "none";
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    // set up the "uncloseable" toggle checkbox based on stored state
+    const cb = document.getElementById('uncloseableToggle');
+    if (cb) {
+        cb.checked = uncloseableEnabled;
+        cb.addEventListener('change', () => setUncloseable(cb.checked));
+    }
+});
+
 listZones();
 
 HTMLCanvasElement.prototype.toDataURL = function (...args) {
